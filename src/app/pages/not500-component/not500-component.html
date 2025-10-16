@@ -1,0 +1,45 @@
+<div class="cont">
+  <div class="cont_p1">
+    <p>500</p>
+    <img src="/assets/img/image/errorServer.png" alt="" />
+  </div>
+  <div class="cont_p2">
+    <div class="cont_p2_title">
+      <img src="/assets/img/image/iconoErrorServer.png" alt="" />
+      <div class="cont_p2_descripcion">
+        <p class="cont_p2_descripcion_p1">Error 500</p>
+        <p class="cont_p2_descripcion_p2">Error Interno del Servidor</p>
+      </div>
+    </div>
+    <div class="cont_p2_body">
+      <p class="cont_p2_body_p1">¡Algo salió mal!</p>
+      <p class="cont_p2_body_p2">
+        Lo sentimos, estamos experimentando problemas técnicos en nuestros servidores. Nuestro
+        equipo ha sido notificado y está trabajando para resolver este problema.
+      </p>
+    </div>
+    <div class="cont_p2_alert">
+      <div class="cont_alert">
+        <img src="/assets/img/image/infor.png" alt="" />
+        <div class="cont_p2_alert_det">
+          <p>Código de Error: 500</p>
+          <p>Timestamp: {{ time$ | async | date : 'dd/MM/yyyy, HH:mm:ss' : 'America/Lima' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="cont_boton">
+      <button (click)="getIrHome()">Volver al inicio</button>
+    </div>
+    <div class="cont_separador">
+      <div class="separador"></div>
+    </div>
+    <div class="contacto">
+      <p class="contacto_p1">¿Necesitas ayuda?</p>
+      <p class="contacto_p2">
+        <img src="/assets/img/image/centroAyuda.png" alt="" />Centro de Ayuda
+      </p>
+      <p class="contacto_p2"><img src="/assets/img/image/chat.png" alt="" />Chat en Vivo</p>
+      <p class="contacto_p2"><img src="/assets/img/image/bug.png" alt="" />Reportar Problema</p>
+    </div>
+  </div>
+</div>

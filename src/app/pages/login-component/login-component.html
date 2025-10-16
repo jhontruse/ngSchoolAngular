@@ -1,1 +1,95 @@
-<p>login-component works!</p>
+<div class="cont">
+  <div class="cont_p1">
+    <div class="cont_p1_logo">
+      <div>
+        <img src="/assets/img/image/birrete.png" alt="" />
+      </div>
+      <div>
+        <p>EduPortal</p>
+      </div>
+    </div>
+    <div class="cont_p1_title">
+      <p class="cont_p1_title_1">Bienvenido de vuelta</p>
+      <p class="cont_p1_title_2">Inicia sesión en tu cuenta escolar</p>
+    </div>
+    <div class="cont_p1_form">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="cont_p1_form_input">
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            placeholder="Ingrese su usuario"
+            (input)="onInputChange()"
+            [class.input-error]="f['username'].invalid && f['username'].touched"
+          />
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+            (input)="onInputChange()"
+            [class.input-error]="f['password'].invalid && f['password'].touched"
+          />
+        </div>
+        <div class="cont_p1_form_extra">
+          <input type="checkbox" />
+          <label for="">¿Olvidaste tu contraseña?</label>
+        </div>
+        <div class="cont_p1_form_boton">
+          <input
+            type="submit"
+            class="btn-login"
+            [disabled]="isLoading"
+            [class.loading]="isLoading"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="cont_p1_separador"></div>
+    <div class="cont_p1_info">
+      <div class="cont_p1_info_telefono">
+        <img src="/assets/img/image/telefono.png" alt="" />
+        <p>Soporte técnico</p>
+      </div>
+      <div class="cont_p1_info_ayuda">
+        <img src="/assets/img/image/ayuda.png" alt="" />
+        <p>Soporte técnico</p>
+      </div>
+    </div>
+  </div>
+  <div class="cont_p2">
+    <div class="cont_p2_1">
+      <p>Plataforma Educativa Digital</p>
+    </div>
+    <div class="cont_p2_2">
+      <p>
+        Accede a tus clases, tareas, calificaciones y recursos educativos desde cualquier lugar.
+      </p>
+    </div>
+    <div class="cont_p2_3">
+      <img src="/assets/img/image/biblioteca.png" alt="" />
+      <div>
+        <p class="contenido_1">Biblioteca Digital</p>
+        <p class="contenido_2">Acceso a miles de recursos educativos</p>
+      </div>
+    </div>
+    <div class="cont_p2_3">
+      <img src="/assets/img/image/aula.png" alt="" />
+      <div>
+        <p class="contenido_1">Aulas Virtuales</p>
+        <p class="contenido_2">Clases interactivas en tiempo real</p>
+      </div>
+    </div>
+    <div class="cont_p2_3">
+      <img src="/assets/img/image/analitica.png" alt="" />
+      <div>
+        <p class="contenido_1">Seguimiento Académico</p>
+        <p class="contenido_2">Monitorea tu progreso educativo</p>
+      </div>
+    </div>
+    <div class="cont_p2_4">
+      <img src="/assets/img/wallpaper/aula.png" alt="" />
+    </div>
+  </div>
+</div>
