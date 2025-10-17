@@ -14,7 +14,7 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
 
   // URLs que no requieren token (whitelist)
-  const publicUrls = ['/login', '/register', '/forgot-password', '/public'];
+  const publicUrls = ['/login', '/register', '/forgot-password', '/public', '/loading'];
 
   // Verificar si la URL es pública
   const isPublicUrl = publicUrls.some((url) => req.url.includes(url));

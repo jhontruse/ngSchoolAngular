@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from '../../service/AuthService.service';
 import { LoginRequest } from '../../model/LoginRequest';
 import { CommonModule } from '@angular/common';
-import { LoginResponse } from '../../model/LoginResponse';
 import { ApiError } from '../../model/ApiError';
+import { ButtonModule } from 'primeng/button';
+import { catchError, throwError, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-login-component',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
   templateUrl: './login-component.html',
   styleUrl: './login-component.css',
 })
@@ -73,26 +74,41 @@ export class LoginComponent implements OnInit {
     // Iniciar loading
     this.isLoading = true;
     // Realizar login
-    this.authService.login(credentials).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        // Redirigir al dashboard o home
-        this.router.navigate(['/pages/home']);
-      },
-      error: (err: ApiError) => {
-        console.error('Error en login:', err);
-        this.isLoading = false;
+    this.authService
+      .login(credentials)
+      .pipe(
+        timeout(15000), // ⏱ 5 segundos de espera
+        catchError((error) => {
+          // Si el timeout se dispara o cualquier otro error ocurre
+          if (error.name === 'TimeoutError') {
+            return throwError(() => ({
+              status: 408,
+              message: 'El servidor está tardando demasiado en responder',
+            }));
+          }
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          // Redirigir al dashboard o home
+          this.router.navigate(['/pages/home']);
+        },
+        error: (err: ApiError) => {
+          console.error('Error en login:', err);
+          this.isLoading = false;
 
-        // Manejar diferentes tipos de errores
-        if (err.status === 401) {
-          this.errorMessage = err.message;
-        } else if (err.status === 0) {
-          this.errorMessage = 'No se pudo conectar con el servidor';
-        } else {
-          this.errorMessage = err.message || 'Error al iniciar sesión. Intente nuevamente.';
-        }
-      },
-    });
+          // Manejar diferentes tipos de errores
+          if (err.status === 401) {
+            this.errorMessage = err.message;
+          } else if (err.status === 0) {
+            this.errorMessage = 'No se pudo conectar con el servidor';
+          } else {
+            this.errorMessage = err.message || 'Error al iniciar sesión. Intente nuevamente.';
+          }
+        },
+      });
   }
 
   /**
