@@ -13,32 +13,52 @@
       <p class="cont_p1_title_2">Inicia sesión en tu cuenta escolar</p>
     </div>
     <div class="cont_p1_form">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="formulario">
         <div class="cont_p1_form_input">
-          <input
-            type="text"
-            id="username"
-            formControlName="username"
-            placeholder="Ingrese su usuario"
-            (input)="onInputChange()"
-            [class.input-error]="f['username'].invalid && f['username'].touched"
-          />
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            id="password"
-            formControlName="password"
-            placeholder="Ingrese su contraseña"
-            (input)="onInputChange()"
-            [class.input-error]="f['password'].invalid && f['password'].touched"
-          />
+          <p-floatlabel variant="on" class="cont_p1_form_usuario">
+            <p-iconfield>
+              <p-inputicon class="pi pi-user" />
+              <input
+                pInputText
+                id="username"
+                formControlName="username"
+                (input)="onInputChange()"
+                autocomplete="off"
+                [class.input-error]="f['username'].invalid && f['username'].touched"
+              />
+            </p-iconfield>
+            <label for="username">Usuario</label>
+          </p-floatlabel>
+
+          <p-floatlabel variant="on" class="cont_p1_form_usuario">
+            <p-iconfield>
+              <p-inputicon class="pi pi-key" />
+              <input
+                pInputText
+                type="password"
+                id="password"
+                formControlName="password"
+                (input)="onInputChange()"
+                [class.input-error]="f['password'].invalid && f['password'].touched"
+              />
+            </p-iconfield>
+            <label for="password">Password</label>
+          </p-floatlabel>
         </div>
         <div class="cont_p1_form_extra">
-          <input type="checkbox" />
+          <div class="extra_1">
+            <p-checkbox inputId="rememberMe" formControlName="rememberMe" [binary]="true" />
+            <label for="rememberMe">Recordarme</label>
+          </div>
+          <div class="extra_2"><p>¿Olvidaste tu contraseña?</p></div>
         </div>
         <div class="cont_p1_form_boton">
-          <input
+          <p-button
+            label="Ingresar"
+            [raised]="true"
+            variant="outlined"
             type="submit"
-            class="btn-login"
+            severity="help"
             [disabled]="isLoading"
             [class.loading]="isLoading"
           />

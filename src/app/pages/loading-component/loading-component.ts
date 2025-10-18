@@ -11,12 +11,12 @@ import { CommonModule } from '@angular/common'; // ✅ Importar esto
 })
 export class LoadingComponent implements OnInit {
   constructor(public loadingService: LoadingServiceService) {
-    console.log('🎨 Loading Component - Initialized');
+    /* console.log('🎨 Loading Component - Initialized'); */
   }
 
   ngOnInit() {
     this.loadingService.loading$.subscribe((isLoading) => {
-      console.log('🎨 Loading Component - Estado:', isLoading);
+      /* console.log('🎨 Loading Component - Estado:', isLoading); */
     });
   }
 }

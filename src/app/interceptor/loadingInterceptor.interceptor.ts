@@ -15,10 +15,10 @@ export const loadingInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
 
   const shouldSkipLoading = skipLoadingUrls.some((url) => req.url.includes(url));
 
-  console.log('🔄 Loading Interceptor - URL:', req.url, 'Skip:', shouldSkipLoading);
+  /* console.log('🔄 Loading Interceptor - URL:', req.url, 'Skip:', shouldSkipLoading); */
 
   if (!shouldSkipLoading) {
-    console.log('⏳ Mostrando loading...');
+    /* console.log('⏳ Mostrando loading...'); */
     loadingService.show();
 
     // Guardar el timestamp de inicio
@@ -30,13 +30,13 @@ export const loadingInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
         const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - elapsedTime);
 
-        console.log(
+        /* console.log(
           `⏱️ Tiempo transcurrido: ${elapsedTime}ms, Delay adicional: ${remainingTime}ms`
-        );
+        ); */
 
         // Esperar el tiempo restante antes de ocultar
         setTimeout(() => {
-          console.log('✅ Ocultando loading...');
+          /* console.log('✅ Ocultando loading...'); */
           loadingService.hide();
         }, remainingTime);
       })
@@ -46,7 +46,7 @@ export const loadingInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     finalize(() => {
       if (!shouldSkipLoading) {
-        console.log('✅ Ocultando loading...');
+        /* console.log('✅ Ocultando loading...'); */
         loadingService.hide();
       }
     })

@@ -15,7 +15,7 @@ export class LoadingServiceService {
    */
   show(): void {
     this.requestCount++;
-    console.log('📊 Loading Service - Show called. Request count:', this.requestCount);
+    /* console.log('📊 Loading Service - Show called. Request count:', this.requestCount); */
     this.loadingSubject.next(true);
   }
 
@@ -25,12 +25,12 @@ export class LoadingServiceService {
    */
   hide(): void {
     this.requestCount--;
-    console.log('📊 Loading Service - Hide called. Request count:', this.requestCount);
+    /* console.log('📊 Loading Service - Hide called. Request count:', this.requestCount); */
 
     if (this.requestCount <= 0) {
       this.requestCount = 0;
       this.loadingSubject.next(false);
-      console.log('✅ Loading Service - Loading hidden');
+      /* console.log('✅ Loading Service - Loading hidden'); */
     }
   }
 

@@ -21,7 +21,7 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
 
   // Si es una URL pública, no agregar token
   if (isPublicUrl) {
-    console.log('🌐 Petición pública:', req.url);
+    /* console.log('🌐 Petición pública:', req.url); */
     return next(req);
   }
 
@@ -39,9 +39,9 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
         'Content-Type': 'application/json',
       },
     });
-    console.log('🔐 Petición autenticada:', req.url);
+    /* console.log('🔐 Petición autenticada:', req.url); */
   } else {
-    console.warn('⚠️ Petición sin token:', req.url);
+    /* console.warn('⚠️ Petición sin token:', req.url); */
   }
 
   // Continuar con la petición y manejar errores

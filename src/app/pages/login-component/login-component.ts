@@ -1,16 +1,40 @@
 import { booleanAttribute, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from '../../service/AuthService.service';
 import { LoginRequest } from '../../model/LoginRequest';
 import { CommonModule } from '@angular/common';
 import { ApiError } from '../../model/ApiError';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule, Button } from 'primeng/button';
 import { catchError, throwError, timeout } from 'rxjs';
+import { InputIconModule } from 'primeng/inputicon';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { PasswordModule } from 'primeng/password';
+import { Checkbox } from 'primeng/checkbox';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-component',
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputIconModule,
+    IconFieldModule,
+    InputTextModule,
+    FloatLabelModule,
+    FormsModule,
+    PasswordModule,
+    Checkbox,
+    Button,
+  ],
   templateUrl: './login-component.html',
   styleUrl: './login-component.css',
 })
@@ -20,6 +44,7 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   showPassword = false;
   returnUrl: string = '/pages/home';
+  rememberMe: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,12 +55,15 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(3)]],
+      rememberMe: [],
     });
   }
 
   ngOnInit(): void {
     // Obtener la URL de retorno de los query params
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/pages/home';
+    // Cargar usuario recordado si existe
+    this.loadRememberedUser();
   }
 
   /**
@@ -93,14 +121,29 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           // Redirigir al dashboard o home
+          if (this.loginForm.value.rememberMe) {
+            sessionStorage.setItem('rememberedUser', credentials.username);
+          } else {
+            sessionStorage.removeItem('rememberedUser');
+          }
+          console.log('PRUEBAAAA ', this.loginForm.value.rememberMe);
           this.router.navigate(['/pages/home']);
         },
         error: (err: ApiError) => {
-          console.error('Error en login:', err);
+          console.log('Error en login:', err);
           this.isLoading = false;
 
           // Manejar diferentes tipos de errores
           if (err.status === 401) {
+            console.log('Prueba 1');
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: err.message,
+              text: 'Intente nuevamente',
+              showConfirmButton: true,
+              //timer: 4500,
+            });
             this.errorMessage = err.message;
           } else if (err.status === 0) {
             this.errorMessage = 'No se pudo conectar con el servidor';
@@ -131,6 +174,23 @@ export class LoginComponent implements OnInit {
   onInputChange(): void {
     if (this.errorMessage) {
       this.errorMessage = '';
+    }
+  }
+
+  /**
+   * Cargar usuario recordado desde sessionStorage
+   */
+  private loadRememberedUser(): void {
+    const remembered: String | undefined = sessionStorage.getItem('rememberedUser')?.toString();
+    console.log('remembered ', remembered);
+
+    if (remembered) {
+      this.loginForm.patchValue({
+        username: remembered,
+      });
+      this.loginForm.get('rememberMe')?.setValue(true);
+    } else {
+      this.loginForm.get('rememberMe')?.setValue(false);
     }
   }
 }

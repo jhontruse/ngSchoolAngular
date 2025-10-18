@@ -49,7 +49,7 @@ export class AuthServiceService {
         }
 
         // Opcional: logging interno
-        console.error('Login error:', customError);
+        /* console.error('Login error:', customError); */
 
         // ❌ Re-lanzamos el error como observable para el componente
         return throwError(() => customError);
