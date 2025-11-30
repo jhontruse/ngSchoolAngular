@@ -6,6 +6,8 @@ import { Not403Component } from './pages/not403-component/not403-component';
 import { loginGuardGuard } from './guard/loginGuard.guard';
 import { Not500Component } from './pages/not500-component/not500-component';
 import { LoadingComponent } from './pages/loading-component/loading-component';
+import { ForgotComponent } from './pages/login-component/forgot-component/forgot-component';
+import { RandomComponent } from './pages/login-component/forgot-component/random-component/random-component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +32,11 @@ export const routes: Routes = [
   {
     path: 'loading',
     component: LoadingComponent,
+  },
+  {
+    path: 'forgot',
+    component: ForgotComponent,
+    children: [{ path: ':random', component: RandomComponent }],
   },
   { path: '**', component: Not404Component },
 ];

@@ -1,9 +1,55 @@
-<div class="cont">
-  <div class="navbar">aaaa</div>
-  <div class="body">
-    <div class="header">edded</div>
-    <div>
-      <router-outlet />
+<div class="contenedor">
+  <div class="header">
+    <div class="title-header">
+      <img src="/assets/img/image/home/logo_sin_text2.png" alt="" />
+      <div class="title-detalle">
+        <p class="title-detalle-1">Colegio Esperanza</p>
+        <p class="title-detalle-2">Sistema Académico</p>
+      </div>
+    </div>
+    <div class="perfil">
+      <div class="perfil-usu">
+        <p class="perfil-usu-nombre">
+          {{
+            (persona?.nombres || '') +
+              ', ' +
+              (persona?.apePaterno || '') +
+              ' ' +
+              (persona?.apeMaterno || '')
+              | lowercase
+              | titlecase
+          }}
+        </p>
+        <p class="perfil-usu-rol">{{ p_val_rol }} - {{ usuario?.email | lowercase }}</p>
+      </div>
+      <p-avatar
+        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+        class="mr-2"
+        size="large"
+        shape="circle"
+      />
+      <div class="logout">
+        <img
+          (click)="logout()"
+          src="/assets/img/image/home/logOut.png"
+          alt=""
+          pTooltip="Salir"
+          tooltipPosition="bottom"
+        />
+      </div>
     </div>
   </div>
+  <div class="navbar">
+    @for (item of listaMenu; track $index) {
+    <div class="menu" [routerLink]="getMenuPath(item.path)" [routerLinkActive]="['active']">
+      <div class="menu_icono">
+        <img [src]="getMenuIconPath(item.icono)" alt="" />
+      </div>
+      <div class="menu_titulo">
+        {{ item.nombre }}
+      </div>
+    </div>
+    }
+  </div>
+  <div class="page"><router-outlet /></div>
 </div>

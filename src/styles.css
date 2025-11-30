@@ -1,6 +1,16 @@
+:root {
+  --font-principal: 'Josefin Sans', sans-serif;
+  --espaciado-max: 900;
+  --espaciado-min: 500;
+  --stilo: italic;
+  --espacio-letra: 0px;
+  --font-color: rgb(141, 77, 44);
+  --shadow-box1: 7px 8px 15px -5px rgba(0, 0, 0, 0.72);
+}
 body,
 html {
   margin: 0;
   border: 0;
   padding: 0;
+  background-color: rgb(248, 249, 250);
 }

@@ -23,7 +23,7 @@ export const loadingInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
 
     // Guardar el timestamp de inicio
     const startTime = Date.now();
-    const MINIMUM_LOADING_TIME = 1000; // 500ms mínimo
+    const MINIMUM_LOADING_TIME = 500; // 500ms mínimo
 
     return next(req).pipe(
       finalize(() => {

@@ -1,0 +1,129 @@
+<div class="contenedor">
+  <div class="fx" aria-hidden="true">
+    <span class="bubble1 circle1"></span>
+    <span class="bubble2 square"></span>
+    <span class="bubble2 circle2"></span>
+    <span class="bubble1 diamond"></span>
+    <span class="bubble1 circle3"></span>
+    <span class="bubble2 esfera"></span>
+  </div>
+  <div class="card">
+    <div class="header">
+      <img src="/assets/img/image/login/logo_sin_text2.png" alt="" />
+      <p class="title_principal">Colegio Esperanza</p>
+      <p class="title_secundario">Sistema Académico</p>
+    </div>
+    <div class="informacion">
+      <img src="/assets/img/image/login/forgot/random/key.png" alt="" />
+      <p id="title_1">Nueva Contraseña</p>
+      <p id="title_2">Crea una contraseña segura para tu cuenta</p>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="formulario">
+      <div class="fomr_login">
+        <label for="newPassword">
+          <img src="/assets/img/image/login/username.png" alt="" />
+          Nueva Contraseña</label
+        >
+        <p-iconfield>
+          <input
+            pInputText
+            [type]="showNewPassword ? 'text' : 'password'"
+            formControlName="newPassword"
+            aria-describedby="username-help"
+            id="newPassword"
+            placeholder="Ingresa tu nueva contraseña"
+          />
+          <p-inputicon
+            [class]="showNewPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+            (click)="togglePasswordVisibility('new')"
+            tabindex="-1"
+          />
+        </p-iconfield>
+      </div>
+      <div class="fomr_login">
+        <label for="confirmPassword">
+          <img src="/assets/img/image/login/password.png" alt="" />
+          Contraseña</label
+        >
+        <p-iconfield>
+          <input
+            pInputText
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            aria-describedby="username-help"
+            id="confirmPassword"
+            placeholder="Confirma tu nueva contraseña"
+          />
+          <p-inputicon
+            [class]="showConfirmPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+            (click)="togglePasswordVisibility('confirm')"
+            tabindex="-1"
+          />
+        </p-iconfield>
+      </div>
+      <div class="fomr_login">
+        <div class="validation-cont">
+          <h5>Requisitos de contraseña</h5>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="f['newPassword']?.errors?.['minLength'] && f['newPassword']?.touched"
+            ></div>
+            <p>Mínimo 8 caracteres</p>
+          </div>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="f['newPassword']?.errors?.['uppercase'] && f['newPassword']?.touched"
+            ></div>
+            <p>Al menos una letra mayúscula</p>
+          </div>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="f['newPassword']?.errors?.['lowercase'] && f['newPassword']?.touched"
+            ></div>
+            <p>Al menos una letra minúscula</p>
+          </div>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="f['newPassword']?.errors?.['digit'] && f['newPassword']?.touched"
+            ></div>
+            <p>Al menos un número</p>
+          </div>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="f['newPassword']?.errors?.['special'] && f['newPassword']?.touched"
+            ></div>
+            <p>Al menos un símbolo</p>
+          </div>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="f['confirmPassword']?.errors?.['required'] && f['confirmPassword']?.touched"
+            ></div>
+            <p>La confirmación es requerida</p>
+          </div>
+          <div class="validation-err">
+            <div
+              [class.is-invalid]="
+                f['newPassword']?.value &&
+                f['confirmPassword']?.value &&
+                loginForm.hasError('passwordMismatch')
+              "
+            ></div>
+            <p>Las contraseñas coinciden</p>
+          </div>
+        </div>
+      </div>
+      <div class="fomr_login_button">
+        <button label="Ingresar" type="submit" [disabled]="loginForm['invalid']" class="btn-efecto">
+          Iniciar sesión
+        </button>
+      </div>
+    </form>
+    <div class="separador"></div>
+    <div class="footer">
+      <p class="help" routerLink="/login">
+        <i class="pi pi-arrow-left"></i>
+        Volver al inicio de sesión
+      </p>
+    </div>
+  </div>
+</div>

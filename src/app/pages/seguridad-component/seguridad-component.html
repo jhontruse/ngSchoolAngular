@@ -1,0 +1,14 @@
+<div class="contenedor-seguridad">
+  <p class="title-1">Gestión de Seguridad</p>
+  <p class="title-2">Administrar usuarios, roles y permisos del sistema</p>
+  <div class="cards">
+    @for (item of items; track $index) {
+
+    <div class="sub-card" [routerLink]="item.routerLink" [routerLinkActive]="['active']">
+      <img [src]="item.icon" alt="" />
+      <p>{{ item.label }}</p>
+    </div>
+    }
+  </div>
+  <router-outlet />
+</div>

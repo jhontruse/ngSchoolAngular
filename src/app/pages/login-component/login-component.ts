@@ -1,4 +1,4 @@
-import { booleanAttribute, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,12 +6,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthServiceService } from '../../service/AuthService.service';
 import { LoginRequest } from '../../model/LoginRequest';
 import { CommonModule } from '@angular/common';
 import { ApiError } from '../../model/ApiError';
-import { ButtonModule, Button } from 'primeng/button';
 import { catchError, throwError, timeout } from 'rxjs';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -33,16 +32,13 @@ import Swal from 'sweetalert2';
     FormsModule,
     PasswordModule,
     Checkbox,
-    Button,
+    RouterLink,
   ],
   templateUrl: './login-component.html',
   styleUrl: './login-component.css',
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
-  showPassword = false;
   returnUrl: string = '/pages/home';
   rememberMe: boolean = false;
 
@@ -54,7 +50,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required]],
       rememberMe: [],
     });
   }
@@ -67,40 +63,15 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Getter para acceder fácilmente a los controles del formulario
-   */
-  get f() {
-    return this.loginForm.controls;
-  }
-
-  /**
-   * Toggle visibilidad de password
-   */
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
-  }
-
-  /**
    * Manejar el envío del formulario
    */
   onSubmit(): void {
-    // Limpiar mensaje de error previo
-    this.errorMessage = '';
-
-    // Validar formulario
-    if (this.loginForm.invalid) {
-      this.markFormGroupTouched(this.loginForm);
-      return;
-    }
-
     // Preparar credenciales
     const credentials: LoginRequest = {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password,
     };
 
-    // Iniciar loading
-    this.isLoading = true;
     // Realizar login
     this.authService
       .login(credentials)
@@ -119,19 +90,17 @@ export class LoginComponent implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          this.isLoading = false;
           // Redirigir al dashboard o home
           if (this.loginForm.value.rememberMe) {
-            sessionStorage.setItem('rememberedUser', credentials.username);
+            localStorage.setItem('rememberedUser', credentials.username);
           } else {
-            sessionStorage.removeItem('rememberedUser');
+            localStorage.removeItem('rememberedUser');
           }
           console.log('PRUEBAAAA ', this.loginForm.value.rememberMe);
           this.router.navigate(['/pages/home']);
         },
         error: (err: ApiError) => {
           console.log('Error en login:', err);
-          this.isLoading = false;
 
           // Manejar diferentes tipos de errores
           if (err.status === 401) {
@@ -144,44 +113,39 @@ export class LoginComponent implements OnInit {
               showConfirmButton: true,
               //timer: 4500,
             });
-            this.errorMessage = err.message;
           } else if (err.status === 0) {
-            this.errorMessage = 'No se pudo conectar con el servidor';
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'No se pudo conectar con el servidor',
+              text: 'Intente nuevamente',
+              showConfirmButton: true,
+              //timer: 4500,
+            });
           } else {
-            this.errorMessage = err.message || 'Error al iniciar sesión. Intente nuevamente.';
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Error al iniciar sesión. Intente nuevamente.',
+              text: 'Intente nuevamente',
+              showConfirmButton: true,
+              //timer: 4500,
+            });
           }
         },
       });
   }
 
   /**
-   * Marcar todos los campos como tocados para mostrar errores
-   */
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach((key) => {
-      const control = formGroup.get(key);
-      control?.markAsTouched();
-
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
-  /**
    * Limpiar mensaje de error cuando el usuario empieza a escribir
    */
-  onInputChange(): void {
-    if (this.errorMessage) {
-      this.errorMessage = '';
-    }
-  }
+  onInputChange(): void {}
 
   /**
-   * Cargar usuario recordado desde sessionStorage
+   * Cargar usuario recordado desde localStorage
    */
   private loadRememberedUser(): void {
-    const remembered: String | undefined = sessionStorage.getItem('rememberedUser')?.toString();
+    const remembered: string | undefined = localStorage.getItem('rememberedUser')?.toString();
     console.log('remembered ', remembered);
 
     if (remembered) {
@@ -192,5 +156,13 @@ export class LoginComponent implements OnInit {
     } else {
       this.loginForm.get('rememberMe')?.setValue(false);
     }
+  }
+
+  get f() {
+    return this.loginForm['controls'];
+  }
+
+  getValidation(val: string): boolean {
+    return this.loginForm['controls'][`${val}`].invalid;
   }
 }

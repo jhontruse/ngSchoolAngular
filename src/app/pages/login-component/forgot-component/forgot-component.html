@@ -1,3 +1,6 @@
+@if (route.children.length !== 0) {
+<router-outlet />
+}@else {
 <div class="contenedor">
   <div class="fx" aria-hidden="true">
     <span class="bubble1 circle1"></span>
@@ -14,51 +17,26 @@
       <p class="title_secundario">Sistema Académico</p>
     </div>
     <div class="informacion">
-      <p id="title_1">Bienvenido</p>
-      <p id="title_2">Inicia sesión para acceder al sistema</p>
+      <p id="title_1">Recuperar cuenta</p>
+      <p id="title_2">Colocar usuario para recuperar la cuenta</p>
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="formulario">
       <div class="fomr_login">
-        <label for="username">
-          <img src="/assets/img/image/login/username.png" alt="" />
-          Username</label
+        <label for="usuario">
+          <img src="/assets/img/image/login/forgot/username.png" alt="" />
+          Usuario</label
         >
         <input
           pInputText
-          id="username"
+          id="usuario"
           aria-describedby="username-help"
           placeholder="Ingresa tu usuario"
-          formControlName="username"
-          (input)="onInputChange()"
-          [required]="getValidation('username')"
+          formControlName="usuario"
         />
-      </div>
-      <div class="fomr_login">
-        <label for="username">
-          <img src="/assets/img/image/login/password.png" alt="" />
-          Contraseña</label
-        >
-        <input
-          pInputText
-          id="username"
-          type="password"
-          aria-describedby="username-help"
-          placeholder="Ingresa tu contraseña"
-          formControlName="password"
-          (input)="onInputChange()"
-          [required]="getValidation('password')"
-        />
-      </div>
-      <div class="fomr_login_check">
-        <div>
-          <p-checkbox inputId="rememberMe" formControlName="rememberMe" [binary]="true" />
-          <label for="rememberMe">Recordarme usuario</label>
-        </div>
-        <div><p routerLink="/forgot">¿Olvidaste tu contraseña?</p></div>
       </div>
       <div class="fomr_login_button">
         <button label="Ingresar" type="submit" [disabled]="loginForm['invalid']" class="btn-efecto">
-          Iniciar sesión
+          Enviar
         </button>
       </div>
     </form>
@@ -72,3 +50,4 @@
     </div>
   </div>
 </div>
+}

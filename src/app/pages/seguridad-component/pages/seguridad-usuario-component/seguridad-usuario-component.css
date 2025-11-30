@@ -1,0 +1,195 @@
+.contenedor-seguridad {
+  width: 75vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.card {
+  width: 100%;
+  height: 70px;
+  margin-top: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  box-shadow: var(--shadow-box1);
+  -webkit-box-shadow: var(--shadow-box1);
+  -moz-box-shadow: var(--shadow-box1);
+}
+.subCard1 {
+  position: relative;
+  width: 23%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.subCard2 {
+  position: relative;
+  width: 12%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.subCard2 p-button {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.subCard1 .p-autocomplete-panel {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 10;
+}
+.table {
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 2px;
+  padding-bottom: 110px;
+  box-shadow: var(--shadow-box1);
+  -webkit-box-shadow: var(--shadow-box1);
+  -moz-box-shadow: var(--shadow-box1);
+  position: relative; /* ayuda con overlays internos si los hubiera */
+  max-width: 100%; /* evita que se exceda del layout */
+  overflow: auto;
+}
+.p-datatable {
+  display: block;
+}
+.table-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  font-size: 0.9rem;
+}
+.tabla {
+  text-align: center;
+  width: 100%;
+}
+td {
+  font-size: 0.7rem;
+  text-align: center;
+}
+.tag {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  text-align: center;
+}
+.table-body {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+.table-body p {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: rgb(93, 93, 93);
+  font-family: var(--font-principal);
+  font-weight: var(--espaciado);
+  font-style: var(--stilo);
+  letter-spacing: var(--espacio-letra);
+  font-size: 0.8rem;
+}
+.col-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  text-align: center;
+}
+.col-menu p-message {
+  margin-left: 3px;
+  margin-right: 3px;
+  font-family: var(--font-principal);
+  font-weight: var(--espaciado);
+  font-style: var(--stilo);
+  letter-spacing: var(--espacio-letra);
+}
+.tag_col {
+  font-family: var(--font-principal);
+  font-weight: var(--espaciado);
+  font-style: var(--stilo);
+  letter-spacing: var(--espacio-letra);
+}
+.col_accion {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  align-items: center;
+  text-align: center;
+}
+.col_accion img {
+  margin-left: 7px;
+  margin-right: 7px;
+  width: 15px;
+  cursor: pointer;
+}
+.filtros_tabla {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.subfiltros_tabla {
+  width: 40%;
+}
+.subfiltros_tabla2 {
+  width: 19%;
+}
+.subfiltros_tabla3 {
+  width: 30%;
+}
+.subfiltros_tabla p-autocomplete {
+  width: 100%;
+}
+.subCard1 p-select {
+  width: 100%;
+}
+.contenedorDrop {
+  width: 100%;
+}

@@ -1,0 +1,95 @@
+.contenedor-seguridad {
+  width: 75vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.title-1 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  color: rgb(0, 0, 0);
+  font-family: var(--font-principal);
+  font-weight: var(--espaciado);
+  font-style: var(--stilo);
+  letter-spacing: var(--espacio-letra);
+  font-size: 1.5rem;
+}
+.title-2 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  color: rgb(132, 131, 131);
+  font-family: var(--font-principal);
+  font-weight: var(--espaciado);
+  font-style: var(--stilo);
+  letter-spacing: var(--espacio-letra);
+  font-size: 1rem;
+  margin-top: 15px;
+}
+.cards {
+  width: 100%;
+  height: 50px;
+  margin-top: 15px;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  box-shadow: var(--shadow-box1);
+  -webkit-box-shadow: var(--shadow-box1);
+  -moz-box-shadow: var(--shadow-box1);
+}
+.sub-card {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
+}
+.sub-card img {
+  width: 20px;
+  filter: brightness(0) saturate(100%);
+}
+.sub-card p {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  color: black;
+  font-family: var(--font-principal);
+  font-weight: var(--espaciado);
+  font-style: var(--stilo);
+  letter-spacing: var(--espacio-letra);
+  font-size: 1rem;
+  margin-left: 5px;
+}
+.active {
+  color: #a55149;
+  filter: brightness(0) saturate(100%) invert(32%) sepia(65%) saturate(490%) hue-rotate(340deg)
+    brightness(95%) contrast(85%);
+  border-bottom: 1px solid #a55149;
+}
+.sub-card:has(:active) {
+  color: #a55149;
+  filter: brightness(0) saturate(100%) invert(32%) sepia(65%) saturate(490%) hue-rotate(340deg)
+    brightness(95%) contrast(85%);
+}
+.sub-card:hover {
+  border-bottom: 2px solid rgb(71, 71, 71, 0.1);
+  border-radius: 1px;
+  transition: border-bottom 0.1s ease;
+}

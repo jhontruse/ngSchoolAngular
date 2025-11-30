@@ -1,0 +1,251 @@
+<div class="contenedor-seguridad">
+  <div class="card">
+    <div class="subCard1">
+      <p-select
+        [options]="roles"
+        [(ngModel)]="selectedRol"
+        [checkmark]="true"
+        [showClear]="true"
+        optionLabel="descripcion"
+        placeholder="Selecciona Roles"
+        class=""
+      />
+    </div>
+    <div class="subCard1">
+      <p-select
+        [options]="estados"
+        [(ngModel)]="selectedEstado"
+        [checkmark]="true"
+        [showClear]="true"
+        optionLabel="name"
+        placeholder="Selecciona Estado"
+        class="w-full md:w-56"
+      />
+    </div>
+    <div class="subCard2">
+      <p-button label="Buscar" icon="pi pi-search" [loading]="loading" (onClick)="buscar()" />
+    </div>
+    <div class="subCard2">
+      <p-button
+        label="Limpiar"
+        variant="outlined"
+        icon="pi pi-filter-slash"
+        [loading]="loadingLimpiar"
+        (onClick)="limpiar()"
+      />
+    </div>
+  </div>
+
+  <div class="table">
+    <p-table
+      class="tabla"
+      [columns]="selectedColumns"
+      [value]="usuarioRolMenuDTO"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+    >
+      <ng-template pTemplate="caption">
+        <div class="filtros_tabla">
+          <div class="subfiltros_tabla">
+            <p-autocomplete
+              [(ngModel)]="value"
+              [suggestions]="filteredUsuarios"
+              (completeMethod)="search($event)"
+              (onSelect)="onUsuarioSelect($event)"
+              (onClear)="onClear()"
+              placeholder="Buscar por nombre, apellido, DNI, usuario..."
+              [dropdown]="true"
+              [showClear]="true"
+              [minLength]="2"
+              [delay]="100"
+              pTooltip="Buscar por nombre, apellido, DNI, usuario, correo.."
+            >
+              <!-- Item en el dropdown -->
+              <ng-template let-usuario pTemplate="item">
+                <div class="usuario-autocomplete-item contenedorDrop">
+                  <div class="usuario-main">
+                    <p-avatar
+                      [label]="getInitials(usuario.nombres)"
+                      shape="circle"
+                      [style]="{
+                        'background-color': usuario.activo ? '#4caf50' : '#9e9e9e',
+                        color: '#fff'
+                      }"
+                    />
+                    <div class="usuario-info">
+                      <div class="usuario-nombre">{{ usuario.nombreCompleto | titlecase }}</div>
+                      <div class="usuario-details">
+                        <span class="detail-item">
+                          <i class="pi pi-id-card"></i>
+                          {{ usuario.dni }}
+                        </span>
+                        <p-tag
+                          [value]="usuario.rol | titlecase"
+                          severity="info"
+                          [rounded]="true"
+                          size="small"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+
+              <!-- Item seleccionado en el input -->
+              <ng-template let-usuario pTemplate="selectedItem">
+                {{ usuario.nombreCompleto | titlecase }}
+              </ng-template>
+
+              <!-- Cuando no hay resultados -->
+              <ng-template pTemplate="empty">
+                <div class="no-results">
+                  <i class="pi pi-search"></i>
+                  <small>Intenta buscar por nombre, apellido, DNI o usuario</small>
+                </div>
+              </ng-template>
+
+              <!-- Loading mientras busca -->
+              <ng-template pTemplate="loader">
+                <div class="loading-results">
+                  <i class="pi pi-spin pi-spinner"></i>
+                  <span>Buscando...</span>
+                </div>
+              </ng-template>
+            </p-autocomplete>
+          </div>
+          <div class="subfiltros_tabla3">
+            <p-multiselect
+              display="chip"
+              [options]="cols"
+              [(ngModel)]="selectedColumns"
+              optionLabel="header"
+              selectedItemsLabel="{0} columnas seleccionadas"
+              placeholder="Choose Columns"
+            />
+          </div>
+          <div class="subfiltros_tabla2">
+            <p-button
+              label="Nuevo Usuario"
+              icon="pi pi-user-plus"
+              [loading]="loading"
+              (onClick)="load()"
+            />
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pSortableColumn="usuario">
+            <div class="table-header">Usuario</div>
+          </th>
+          @for (col of columns; track $index ) {
+          <th>
+            <div class="table-header">
+              {{ col.header }}
+            </div>
+          </th>
+          }
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-usuarioRolMenuDTO let-columns="columns">
+        <tr>
+          <td>
+            <div class="table-body">
+              <!---------------USUARIO------------------>
+              <p>{{ usuarioRolMenuDTO.usuario.usuario }}</p>
+              <!--------------------------------->
+            </div>
+          </td>
+          @for (col of columns; track $index) {
+          <td>
+            <div class="table-body">
+              <!---------------PERSONA------------------>
+              @if (col.type ==='text' && col.entity==='persona' && col.field ==='nombres') {
+              <p>
+                {{
+                  (usuarioRolMenuDTO.persona.nombres || '') +
+                    ', ' +
+                    (usuarioRolMenuDTO.persona.apePaterno || '') +
+                    ' ' +
+                    (usuarioRolMenuDTO.persona.apeMaterno || '') | titlecase
+                }}
+              </p>
+              }
+              <!---------------DNI------------------>
+              @if (col.type ==='text' && col.entity==='persona' && col.field ==='dni' ) {
+              <p>{{ usuarioRolMenuDTO.persona.dni | titlecase }}</p>
+              }
+              <!---------------EMAIL------------------>
+              @if (col.type ==='text' && col.entity==='usuario') {
+              <p>{{ usuarioRolMenuDTO.usuario[col.field] | lowercase }}</p>
+              }
+              <!---------------ESTADO------------------>
+              @if (col.type ==='boolean' && col.field ==='activo' && col.entity==='usuario') {
+              <!--------------------------------->
+              @if (usuarioRolMenuDTO.usuario[col.field]===true) {
+              <div class="tag_col">
+                <p-tag severity="success" value="Activo" rounded="true" />
+              </div>
+              }
+              <!--------------------------------->
+              @else {
+              <div class="tag_col">
+                <p-tag severity="secondary" value="Inactivo" rounded="true" />
+              </div>
+              }
+              <!--------------------------------->
+              }
+              <!---------------ROL------------------>
+              @if (col.type ==='text' && col.entity ==='rol' ) {
+              <div class="tag_col">
+                <p-tag
+                  severity="info"
+                  value="{{ usuarioRolMenuDTO.rol[col.field] | titlecase }}"
+                  rounded="true"
+                />
+              </div>
+              }
+              <!---------------MENU------------------>
+              @if (col.type ==='text' && col.entity ==='menu' ) {
+              <!--------------------------------->
+              <div class="col-menu">
+                @for (menus of usuarioRolMenuDTO.menu; track $index ; ) {
+                <p-message severity="contrast" variant="outlined" size="small">{{
+                  menus[col.field] | titlecase
+                }}</p-message>
+                }
+              </div>
+              <!--------------------------------->
+              }
+              <!---------------ACCIONES------------------>
+              @if (col.entity !=='persona' && col.entity !=='usuario' && col.entity !=='rol'&&
+              col.entity !=='menu' ) {
+              <div class="col_accion">
+                <img src="/assets/img/image/seguridad/editar.png" alt="" />
+                <img src="/assets/img/image/seguridad/key.png" alt="" />
+                <!--------------------------------->
+                @if (usuarioRolMenuDTO.usuario.activo===true) {<img
+                  src="/assets/img/image/seguridad/inhabilitad.png"
+                  alt=""
+                  (click)="cambiarEstado(usuarioRolMenuDTO)"
+                />} @if (usuarioRolMenuDTO.usuario.activo===false) {
+                <img
+                  src="/assets/img/image/seguridad/habilitar.png"
+                  alt=""
+                  (click)="cambiarEstado(usuarioRolMenuDTO)"
+                />}
+                <!--------------------------------->
+              </div>
+              }
+              <!--------------------------------->
+            </div>
+          </td>
+          }
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
